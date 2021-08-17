@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -61,9 +61,22 @@ let package = Package(
             path: "crt/aws-c-common",
             exclude: awsCCommonPlatformExcludes
         ),
+        .target(
+            name: "AwsCCommonTestsImpl",
+            dependencies: ["AwsCCommon"],
+            path: "crt/aws-c-common/tests",
+            sources: [
+                "system_info_tests.c",
+                "logging/test_logger.c"
+            ]
+        ),
+        .target(
+            name: "AwsCCommonTests",
+            dependencies: ["AwsCCommonTestsImpl"]
+        ),
         .testTarget(
             name: "SandboxTests",
-            dependencies: ["AwsCCommon"]
+            dependencies: ["AwsCCommon", "AwsCCommonTests"]
         ),
     ]
 )

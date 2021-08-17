@@ -2,6 +2,7 @@ import XCTest
 import class Foundation.Bundle
 
 import AwsCCommon
+import AwsCCommonTests
 
 //typealias test_stack_trace_decoding = @convention(c) (CInt, UnsafePointer<CChar>?) -> CInt
 
@@ -35,5 +36,10 @@ final class SandboxTests: XCTestCase {
             return $0.contains(functionName)
         }
         XCTAssertNotNil(foundFunction)
+    }
+    
+    func testCallStackTraceDecoding() {
+        let returnValue = test_stack_trace_decoding(0, nil)
+        XCTAssertEqual(returnValue, 0)
     }
 }
