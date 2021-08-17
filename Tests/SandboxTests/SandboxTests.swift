@@ -29,6 +29,11 @@ final class SandboxTests: XCTestCase {
                 }
             }
         }
-        print(symbols)
+        let parens = #function.firstIndex(of: "(") ?? #function.endIndex
+        let functionName = #function[..<parens]
+        let foundFunction = symbols.first {
+            return $0.contains(functionName)
+        }
+        XCTAssertNotNil(foundFunction)
     }
 }
