@@ -1,0 +1,5 @@
+
+module AwsCCommonTests {
+    header "include/tests.h"
+    export *
+}

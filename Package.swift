@@ -35,9 +35,9 @@ awsCCommonPlatformExcludes.append("source/arch/arm/asm")
 let package = Package(
     name: "Sandbox",
     platforms: [.iOS(.v11), .macOS(.v10_14)],
-    products: [
-      .executable(name: "AwsCrtSandbox", targets: ["Sandbox"])
-    ],
+//    products: [
+//      .executable(name: "AwsCrtSandbox", targets: ["Sandbox"])
+//    ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -61,17 +61,9 @@ let package = Package(
             path: "crt/aws-c-common",
             exclude: awsCCommonPlatformExcludes
         ),
-        .target(
-            name: "AwsCCommonTests",
-            dependencies: ["AwsCCommon"],
-            path: "crt/aws-c-common/tests",
-            sources: [
-                "system_info_test.c"
-            ]
-        ),
         .testTarget(
             name: "SandboxTests",
-            dependencies: ["Sandbox", "AwsCPlatformConfig", "AwsCCommon"]
+            dependencies: ["AwsCCommon"]
         ),
     ]
 )

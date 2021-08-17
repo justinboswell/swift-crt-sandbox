@@ -1,7 +1,11 @@
 import XCTest
 import class Foundation.Bundle
 
-typealias test_stack_trace_decoding = @convention(c) (CInt, UnsafePointer<CChar>?) -> CInt
+import AwsCCommon
+
+//typealias test_stack_trace_decoding = @convention(c) (CInt, UnsafePointer<CChar>?) -> CInt
+
+//func test_stack_trace_decoding(_ argc: CInt, _ argv: UnsafePointer<CChar>?) -> CInt
 
 func resolve<T>(_ name: String) -> T {
     let process = dlopen(nil, RTLD_NOW)
@@ -12,20 +16,19 @@ func resolve<T>(_ name: String) -> T {
 }
 
 final class SandboxTests: XCTestCase {
-    func testExample() throws {
-        let test_stack_trace_decoding = resolve("test_stack_trace_decoding") as test_stack_trace_decoding
-        XCTAssertEqual(0, test_stack_trace_decoding(0, nil))
-    }
-
-    /// Returns path to the built products directory.
-    var productsDirectory: URL {
-      #if os(macOS)
-        for bundle in Bundle.allBundles where bundle.bundlePath.hasSuffix(".xctest") {
-            return bundle.bundleURL.deletingLastPathComponent()
+    func testStackTraceDecoding() throws {
+        let stackFrames = UnsafeMutablePointer<UnsafeMutableRawPointer?>.allocate(capacity: 16)
+        let numFrames = aws_backtrace(stackFrames, 16)
+        XCTAssert(0 != numFrames)
+        let rawSymbols = aws_backtrace_symbols(stackFrames, 16)
+        var symbols: [String] = []
+        for idx in 0...15 {
+            if let rawSymbol = rawSymbols?.advanced(by: idx) {
+                if let symbol = String(validatingUTF8: rawSymbol.pointee!) {
+                    symbols.append(symbol)
+                }
+            }
         }
-        fatalError("couldn't find the products directory")
-      #else
-        return Bundle.main.bundleURL
-      #endif
+        print(symbols)
     }
 }
