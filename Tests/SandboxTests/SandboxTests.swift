@@ -37,4 +37,9 @@ final class SandboxTests: XCTestCase {
         }
         XCTAssertNotNil(foundFunction)
     }
+    
+    func testCallStackTraceDecoding() {
+        let returnValue = test_stack_trace_decoding(0, nil)
+        XCTAssertEqual(returnValue, 0)
+    }
 }

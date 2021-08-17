@@ -66,17 +66,17 @@ let package = Package(
             dependencies: ["AwsCCommon"],
             path: "crt/aws-c-common/tests",
             sources: [
-                "system_info_tests.c"
+                "system_info_tests.c",
+                "logging/test_logger.c"
             ]
         ),
         .target(
             name: "AwsCCommonTests",
-            dependencies: ["AwsCCommonTestsImpl"],
-            path: "crt/aws-c-common-tests"
+            dependencies: ["AwsCCommonTestsImpl"]
         ),
         .testTarget(
             name: "SandboxTests",
-            dependencies: ["AwsCCommon"]
+            dependencies: ["AwsCCommon", "AwsCCommonTests"]
         ),
     ]
 )
