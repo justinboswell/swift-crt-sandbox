@@ -2,6 +2,7 @@ import XCTest
 import class Foundation.Bundle
 
 import AwsCCommon
+import AwsCCommonTests
 
 //typealias test_stack_trace_decoding = @convention(c) (CInt, UnsafePointer<CChar>?) -> CInt
 

@@ -61,6 +61,19 @@ let package = Package(
             path: "crt/aws-c-common",
             exclude: awsCCommonPlatformExcludes
         ),
+        .target(
+            name: "AwsCCommonTestsImpl",
+            dependencies: ["AwsCCommon"],
+            path: "crt/aws-c-common/tests",
+            sources: [
+                "system_info_tests.c"
+            ]
+        ),
+        .target(
+            name: "AwsCCommonTests",
+            dependencies: ["AwsCCommonTestsImpl"],
+            path: "crt/aws-c-common-tests"
+        ),
         .testTarget(
             name: "SandboxTests",
             dependencies: ["AwsCCommon"]
